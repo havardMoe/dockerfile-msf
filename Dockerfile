@@ -2,9 +2,13 @@ FROM ubuntu:bionic
 
 # Need new ruby to match metasploit requirements
 FROM ruby:latest
-RUN gem install bundler
 
 ARG DEBIAN_FRONTEND=noninteractive
+
+# Important installs
+RUN gem install bundler
+# Install apt-utils
+RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
 
 # PosgreSQL DB
 COPY ./scripts/db.sql /tmp
