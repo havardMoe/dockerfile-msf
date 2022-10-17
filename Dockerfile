@@ -1,11 +1,13 @@
 FROM ubuntu:bionic
 
-MAINTAINER Phocean <jc@phocean.net>
+# Need new ruby to match metasploit requirements
+FROM ruby:latest
+RUN gem install bundler
 
 ARG DEBIAN_FRONTEND=noninteractive
 
 # PosgreSQL DB
-COPY ./scripts/db.sql /tmp/
+COPY ./scripts/db.sql /tmp
 
 # Startup script
 COPY ./scripts/init.sh /usr/local/bin/init.sh
@@ -45,4 +47,4 @@ VOLUME /tmp/data/
 ENV LANG C.UTF-8
 WORKDIR /opt/metasploit-framework
 
-CMD "init.sh"
+CMD "/usr/local/bin/init.sh"
